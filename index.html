@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CEAN – Community Empowerment and Advocacy Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --green-deep: #1B4332;
+      --green-mid: #2D6A4F;
+      --green-bright: #40916C;
+      --green-light: #74C69D;
+      --green-pale: #D8F3DC;
+      --amber: #C9821A;
+      --amber-light: #F4A228;
+      --amber-pale: #FEF3DC;
+      --cream: #F8F4EE;
+      --white: #FFFFFF;
+      --dark: #0D1F14;
+      --text: #2C3E2D;
+      --text-light: #5A7062;
+      --border: #D4E8D9;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:1000;
+      background: rgba(27,67,50,0.97); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 72px;
+      border-bottom: 1px solid rgba(116,198,157,0.2);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-mark {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--green-bright), var(--green-light));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-weight: 700; color: white; font-size: 18px; flex-shrink: 0;
+    }
+    .nav-logo-text strong { display:block; font-family:'Playfair Display',serif; font-size:15px; color:white; }
+    .nav-logo-text span { display:block; font-size:10px; color:var(--green-light); letter-spacing:1.5px; text-transform:uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a { color:rgba(255,255,255,0.85); text-decoration:none; font-size:13px; font-weight:500; padding:6px 14px; border-radius:6px; transition:all 0.2s; }
+    .nav-links a:hover { color:white; background:rgba(116,198,157,0.15); }
+    .nav-cta { background:var(--amber) !important; color:white !important; border-radius:8px !important; font-weight:600 !important; padding:8px 18px !important; }
+    .nav-cta:hover { background:var(--amber-light) !important; transform:translateY(-1px); box-shadow:0 4px 12px rgba(201,130,26,0.4) !important; }
+    .hamburger { display:none; cursor:pointer; color:white; font-size:22px; }
+
+    /* HERO */
+    #home { min-height:100vh; background:var(--green-deep); position:relative; display:flex; flex-direction:column; overflow:hidden; }
+    .hero-bg {
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse at 20% 50%,rgba(64,145,108,0.3) 0%,transparent 60%),
+                  radial-gradient(ellipse at 80% 20%,rgba(201,130,26,0.15) 0%,transparent 50%),
+                  radial-gradient(ellipse at 60% 80%,rgba(45,106,79,0.4) 0%,transparent 50%);
+    }
+    .hero-content { position:relative; z-index:2; flex:1; display:flex; align-items:center; padding:120px 8% 80px; gap:60px; }
+    .hero-left { flex:1; max-width:660px; }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(116,198,157,0.15); border:1px solid rgba(116,198,157,0.3); color:var(--green-light);
+      padding:6px 16px; border-radius:100px; font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+      margin-bottom:28px; animation:fadeUp 0.6s ease both;
+    }
+    h1.hero-title { font-family:'Playfair Display',serif; font-size:clamp(40px,5.5vw,68px); line-height:1.1; color:white; margin-bottom:28px; animation:fadeUp 0.7s 0.1s ease both; }
+    h1.hero-title em { font-style:italic; color:var(--amber-light); }
+    .hero-desc { font-size:17px; line-height:1.75; color:rgba(255,255,255,0.75); max-width:520px; margin-bottom:44px; font-weight:300; animation:fadeUp 0.7s 0.2s ease both; }
+    .hero-actions { display:flex; gap:16px; flex-wrap:wrap; animation:fadeUp 0.7s 0.3s ease both; }
+    .hero-right { flex-shrink:0; width:360px; animation:fadeUp 0.8s 0.2s ease both; }
+    .hero-card { background:rgba(255,255,255,0.06); border:1px solid rgba(116,198,157,0.2); border-radius:20px; padding:32px; backdrop-filter:blur(10px); }
+    .hero-card h3 { font-family:'Playfair Display',serif; color:var(--green-light); font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px; }
+    .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .stat-item { background:rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; }
+    .stat-num { font-family:'Playfair Display',serif; font-size:28px; color:var(--amber-light); font-weight:700; display:block; }
+    .stat-label { font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.8px; margin-top:4px; line-height:1.3; }
+
+    /* CRED BAR */
+    .cred-bar { position:relative; z-index:2; background:rgba(0,0,0,0.25); border-top:1px solid rgba(116,198,157,0.15); padding:18px 8%; display:flex; align-items:center; justify-content:center; gap:40px; flex-wrap:wrap; }
+    .cred-item { display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.8); font-size:13px; font-weight:500; }
+    .cred-item i { color:var(--green-light); font-size:15px; }
+
+    /* SECTIONS */
+    section { padding:96px 8%; }
+    .section-label { display:inline-flex; align-items:center; gap:8px; color:var(--green-bright); font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:16px; }
+    .section-label::before { content:''; display:inline-block; width:24px; height:2px; background:var(--amber); border-radius:2px; }
+    h2.section-title { font-family:'Playfair Display',serif; font-size:clamp(30px,4vw,48px); line-height:1.15; color:var(--green-deep); margin-bottom:20px; }
+    .section-desc { font-size:17px; line-height:1.75; color:var(--text-light); max-width:620px; font-weight:300; }
+
+    /* BUTTONS */
+    .btn-primary { background:var(--amber); color:white; padding:15px 32px; border-radius:10px; font-weight:600; font-size:15px; text-decoration:none; display:inline-flex; align-items:center; gap:10px; transition:all 0.25s; border:none; cursor:pointer; }
+    .btn-primary:hover { background:var(--amber-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,130,26,0.45); }
+    .btn-outline { background:transparent; color:white; padding:15px 32px; border-radius:10px; font-weight:500; font-size:15px; text-decoration:none; display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(255,255,255,0.35); transition:all 0.25s; cursor:pointer; }
+    .btn-outline:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.6); }
+
+    /* ABOUT */
+    #about { background:var(--cream); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; margin-top:60px; }
+    .about-img-placeholder { width:100%; height:420px; background:linear-gradient(135deg,var(--green-mid) 0%,var(--green-bright) 60%,var(--green-light) 100%); border-radius:20px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+    .about-img-placeholder i { font-size:80px; color:rgba(255,255,255,0.3); position:relative; z-index:1; }
+    .about-img-block { position:relative; }
+    .about-float-badge { position:absolute; bottom:-24px; right:-24px; background:var(--amber); color:white; padding:20px 24px; border-radius:16px; font-family:'Playfair Display',serif; box-shadow:0 12px 32px rgba(201,130,26,0.35); }
+    .about-float-badge strong { font-size:28px; display:block; }
+    .about-float-badge span { font-size:12px; opacity:0.85; }
+    .values-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:32px; }
+    .value-chip { display:flex; align-items:center; gap:10px; background:white; padding:12px 16px; border-radius:10px; font-size:13px; font-weight:600; color:var(--green-deep); border:1px solid var(--border); transition:all 0.2s; }
+    .value-chip:hover { border-color:var(--green-bright); transform:translateY(-2px); }
+    .value-chip i { color:var(--green-bright); }
+    .sdg-strip { margin-top:36px; padding:20px 24px; background:var(--green-pale); border-radius:12px; border-left:4px solid var(--green-bright); }
+    .sdg-strip h4 { font-size:12px; text-transform:uppercase; letter-spacing:1.5px; color:var(--green-mid); margin-bottom:12px; }
+    .sdg-badges { display:flex; gap:8px; flex-wrap:wrap; }
+    .sdg-badge { background:var(--green-mid); color:white; padding:4px 12px; border-radius:100px; font-size:11px; font-weight:700; }
+
+    /* PROGRAMMES */
+    #programmes { background:white; }
+    .prog-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:24px; margin-top:60px; }
+    .prog-card { background:var(--cream); border-radius:20px; padding:32px; border:1px solid var(--border); transition:all 0.3s; position:relative; overflow:hidden; }
+    .prog-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--prog-color,var(--green-bright)); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
+    .prog-card:hover::before { transform:scaleX(1); }
+    .prog-card:hover { transform:translateY(-6px); box-shadow:0 20px 48px rgba(27,67,50,0.12); }
+    .prog-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:20px; background:var(--prog-bg,var(--green-pale)); }
+    .prog-card h3 { font-family:'Playfair Display',serif; font-size:18px; color:var(--green-deep); margin-bottom:12px; }
+    .prog-card p { font-size:14px; line-height:1.7; color:var(--text-light); }
+
+    /* TEAM */
+    #team { background:var(--green-deep); }
+    #team .section-label { color:var(--green-light); }
+    #team h2.section-title { color:white; }
+    #team .section-desc { color:rgba(255,255,255,0.65); }
+    .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; margin-top:60px; }
+    .team-card { background:rgba(255,255,255,0.05); border:1px solid rgba(116,198,157,0.15); border-radius:20px; padding:28px 20px; text-align:center; transition:all 0.3s; }
+    .team-card:hover { background:rgba(255,255,255,0.09); border-color:rgba(116,198,157,0.35); transform:translateY(-4px); }
+    .team-avatar { width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,var(--green-bright),var(--green-light)); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:22px; color:white; font-weight:700; margin:0 auto 16px; border:3px solid rgba(116,198,157,0.3); }
+    .team-card h3 { color:white; font-family:'Playfair Display',serif; font-size:15px; margin-bottom:6px; line-height:1.3; }
+    .team-card p { color:var(--green-light); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+
+    /* IMPACT */
+    #impact { background:var(--cream); }
+    .impact-layout { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:60px; }
+    .story-card { background:white; border-radius:20px; overflow:hidden; border:1px solid var(--border); transition:all 0.3s; }
+    .story-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(27,67,50,0.1); }
+    .story-img { height:180px; display:flex; align-items:center; justify-content:center; }
+    .story-img i { font-size:48px; color:rgba(255,255,255,0.4); }
+    .story-body { padding:24px; }
+    .story-tag { display:inline-block; background:var(--green-pale); color:var(--green-mid); padding:3px 10px; border-radius:100px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+    .story-body h3 { font-family:'Playfair Display',serif; font-size:19px; color:var(--green-deep); margin-bottom:10px; }
+    .story-body p { font-size:14px; line-height:1.7; color:var(--text-light); }
+    .testimonial-block { background:var(--green-mid); border-radius:20px; padding:36px; color:white; }
+    .quote-mark { font-size:80px; font-family:'Playfair Display',serif; line-height:0.5; color:rgba(255,255,255,0.15); display:block; margin-bottom:20px; }
+    .testimonial-block blockquote { font-family:'Playfair Display',serif; font-size:19px; line-height:1.6; font-style:italic; margin-bottom:20px; }
+    .testimonial-block cite { font-size:13px; opacity:0.7; font-style:normal; }
+
+    /* INVOLVE */
+    #involve { background:white; }
+    .involve-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:24px; margin-top:60px; }
+    .involve-card { border:2px solid var(--border); border-radius:20px; padding:36px 24px; text-align:center; transition:all 0.3s; }
+    .involve-card:hover { border-color:var(--green-bright); background:var(--green-pale); transform:translateY(-4px); }
+    .involve-icon { width:60px; height:60px; border-radius:50%; background:var(--green-pale); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:22px; transition:all 0.3s; }
+    .involve-card:hover .involve-icon { background:var(--green-bright); }
+    .involve-icon i { color:var(--green-bright); transition:color 0.3s; }
+    .involve-card:hover .involve-icon i { color:white; }
+    .involve-card h3 { font-family:'Playfair Display',serif; font-size:19px; color:var(--green-deep); margin-bottom:10px; }
+    .involve-card p { font-size:14px; color:var(--text-light); line-height:1.65; }
+    .contact-form-wrap { margin-top:64px; background:var(--cream); border-radius:24px; padding:48px; }
+    .contact-form-wrap h3 { font-family:'Playfair Display',serif; font-size:26px; color:var(--green-deep); margin-bottom:8px; }
+    .contact-form-wrap > p { color:var(--text-light); font-size:15px; margin-bottom:32px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .form-group { display:flex; flex-direction:column; gap:6px; }
+    .form-group.full { grid-column:1/-1; }
+    .form-group label { font-size:13px; font-weight:600; color:var(--green-deep); }
+    .form-group input, .form-group select, .form-group textarea { padding:13px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); background:white; transition:all 0.2s; outline:none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--green-bright); box-shadow:0 0 0 3px rgba(64,145,108,0.1); }
+    .form-group textarea { min-height:120px; resize:vertical; }
+
+    /* FUNDERS */
+    #funders { background:var(--amber-pale); }
+    .funders-intro { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; margin-top:60px; }
+    .funder-pillars { display:flex; flex-direction:column; gap:16px; }
+    .funder-pillar { display:flex; gap:18px; align-items:flex-start; background:white; padding:22px; border-radius:16px; border:1px solid rgba(201,130,26,0.15); transition:all 0.2s; }
+    .funder-pillar:hover { border-color:var(--amber); transform:translateX(4px); }
+    .pillar-icon { width:44px; height:44px; background:var(--amber-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; }
+    .funder-pillar h4 { font-size:15px; font-weight:700; color:var(--green-deep); margin-bottom:4px; }
+    .funder-pillar p { font-size:13px; color:var(--text-light); line-height:1.6; }
+    .funder-cta-box { background:var(--green-deep); border-radius:24px; padding:44px 36px; color:white; position:sticky; top:100px; }
+    .funder-cta-box h3 { font-family:'Playfair Display',serif; font-size:26px; margin-bottom:14px; line-height:1.25; }
+    .funder-cta-box > p { color:rgba(255,255,255,0.7); font-size:14px; line-height:1.7; margin-bottom:24px; }
+    .funding-areas { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+    .funding-area-item { display:flex; align-items:center; gap:12px; font-size:14px; color:rgba(255,255,255,0.85); }
+    .funding-area-item i { color:var(--green-light); font-size:12px; }
+
+    /* CONTACT */
+    #contact { background:var(--green-deep); }
+    #contact .section-label { color:var(--green-light); }
+    #contact h2.section-title { color:white; }
+    .contact-layout { display:grid; grid-template-columns:1fr 1.5fr; gap:72px; margin-top:60px; }
+    .contact-info { display:flex; flex-direction:column; gap:22px; }
+    .contact-item { display:flex; gap:14px; align-items:flex-start; }
+    .contact-icon { width:44px; height:44px; background:rgba(116,198,157,0.1); border:1px solid rgba(116,198,157,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--green-light); flex-shrink:0; }
+    .contact-item h4 { color:rgba(255,255,255,0.5); font-size:11px; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; }
+    .contact-item p { color:white; font-size:15px; }
+    .social-links { display:flex; gap:10px; margin-top:6px; }
+    .social-link { width:40px; height:40px; border-radius:10px; border:1px solid rgba(116,198,157,0.2); display:flex; align-items:center; justify-content:center; color:var(--green-light); text-decoration:none; font-size:15px; transition:all 0.2s; }
+    .social-link:hover { background:rgba(116,198,157,0.15); border-color:var(--green-light); color:white; transform:translateY(-2px); }
+    .contact-form { background:rgba(255,255,255,0.05); border:1px solid rgba(116,198,157,0.15); border-radius:24px; padding:36px; }
+    .contact-form .form-group input, .contact-form .form-group select, .contact-form .form-group textarea { background:rgba(255,255,255,0.07); border-color:rgba(116,198,157,0.2); color:white; }
+    .contact-form .form-group input::placeholder, .contact-form .form-group textarea::placeholder { color:rgba(255,255,255,0.35); }
+    .contact-form .form-group label { color:rgba(255,255,255,0.75); }
+    .contact-form .form-group input:focus, .contact-form .form-group select:focus, .contact-form .form-group textarea:focus { border-color:var(--green-light); box-shadow:0 0 0 3px rgba(116,198,157,0.1); }
+    .contact-form .form-group select option { background:var(--green-deep); }
+
+    /* FOOTER */
+    footer { background:var(--dark); color:rgba(255,255,255,0.6); padding:48px 8% 32px; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:28px; }
+    .footer-brand p { font-size:14px; line-height:1.7; margin-top:14px; color:rgba(255,255,255,0.5); }
+    .footer-col h4 { color:white; font-size:12px; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:14px; font-weight:700; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer-col ul li a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:14px; transition:color 0.2s; }
+    .footer-col ul li a:hover { color:var(--green-light); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; font-size:13px; flex-wrap:wrap; gap:8px; }
+    .footer-bottom a { color:var(--green-light); text-decoration:none; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      .hamburger{display:block;}
+      .nav-links{display:none;position:fixed;top:72px;left:0;right:0;background:var(--green-deep);flex-direction:column;padding:24px;gap:8px;border-bottom:1px solid rgba(116,198,157,0.2);}
+      .nav-links.open{display:flex;}
+      .nav-links a{padding:12px 16px;font-size:15px;}
+      .hero-content{flex-direction:column;padding-top:100px;}
+      .hero-right{width:100%;}
+      .about-grid,.impact-layout,.funders-intro,.contact-layout{grid-template-columns:1fr;}
+      .about-float-badge{right:0;}
+      .funder-cta-box{position:static;}
+      .footer-grid{grid-template-columns:1fr 1fr;gap:32px;}
+      .form-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:600px){
+      section{padding:72px 6%;}
+      nav{padding:0 6%;}
+      .footer-grid{grid-template-columns:1fr;}
+      .cred-bar{gap:16px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-mark">CE</div>
+    <div class="nav-logo-text">
+      <strong>CEAN</strong>
+      <span>Kenya</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#programmes">Programmes</a></li>
+    <li><a href="#team">Our Team</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#funders">For Funders</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#involve" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()"><i class="fas fa-bars" id="hamburgerIcon"></i></div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge"><i class="fas fa-leaf"></i> Registered Kenyan CBO · Est. October 2025</div>
+      <h1 class="hero-title">Empowering Communities.<br/><em>Sustaining Futures.</em></h1>
+      <p class="hero-desc">CEAN promotes community development across Kenya through economic empowerment, environmental conservation, and access to reproductive health — guided by justice, equity, and integrity.</p>
+      <div class="hero-actions">
+        <a href="#funders" class="btn-primary"><i class="fas fa-handshake"></i> Partner With Us</a>
+        <a href="#about" class="btn-outline"><i class="fas fa-arrow-right"></i> Discover Our Work</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <h3>Our Reach &amp; Impact</h3>
+        <div class="stat-grid">
+          <div class="stat-item"><span class="stat-num">8</span><span class="stat-label">Programme Areas</span></div>
+          <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">Core Values</span></div>
+          <div class="stat-item"><span class="stat-num">SDG</span><span class="stat-label">Aligned Work</span></div>
+          <div class="stat-item"><span class="stat-num">🇰🇪</span><span class="stat-label">Legally Registered</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cred-bar">
+    <div class="cred-item"><i class="fas fa-check-circle"></i> Registered CBO · NGO Act 1990</div>
+    <div class="cred-item"><i class="fas fa-check-circle"></i> SDG Aligned</div>
+    <div class="cred-item"><i class="fas fa-check-circle"></i> Kenya Vision 2030</div>
+    <div class="cred-item"><i class="fas fa-check-circle"></i> Externally Audited</div>
+    <div class="cred-item"><i class="fas fa-check-circle"></i> Transparent Governance</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who We Are</div>
+  <h2 class="section-title">Rooted in Community.<br/>Driven by Change.</h2>
+  <p class="section-desc">Founded in October 2025, CEAN is a registered Kenyan community-based organisation operating under the NGO Co-ordination Act, 1990 — committed to building thriving, equitable communities across Kenya.</p>
+
+  <div class="about-grid reveal">
+    <div class="about-img-block">
+      <div class="about-img-placeholder"><i class="fas fa-users"></i></div>
+      <div class="about-float-badge"><strong>2025</strong><span>Founded in Kenya</span></div>
+    </div>
+    <div>
+      <div class="section-label" style="margin-top:0;">Our Vision &amp; Mission</div>
+      <h2 class="section-title" style="font-size:26px; margin-bottom:14px;">A Kenya where every citizen thrives equally</h2>
+      <p style="font-size:15px; line-height:1.75; color:var(--text-light); margin-bottom:12px;"><strong style="color:var(--green-deep);">Vision:</strong> A thriving Kenyan community where empowered citizens enjoy equal opportunities, economic self-reliance, environmental sustainability, and the protection of gender rights and reproductive health.</p>
+      <p style="font-size:15px; line-height:1.75; color:var(--text-light)"><strong style="color:var(--green-deep);">Mission:</strong> To promote community development through economic empowerment, environmental conservation, and improved access to reproductive health — while firmly addressing gender-based violence.</p>
+      <div class="values-grid">
+        <div class="value-chip"><i class="fas fa-shield-alt"></i> Integrity</div>
+        <div class="value-chip"><i class="fas fa-users"></i> Inclusivity</div>
+        <div class="value-chip"><i class="fas fa-heart"></i> Compassion</div>
+        <div class="value-chip"><i class="fas fa-hands-helping"></i> Collaboration</div>
+        <div class="value-chip"><i class="fas fa-leaf"></i> Sustainability</div>
+        <div class="value-chip"><i class="fas fa-fist-raised"></i> Empowerment</div>
+      </div>
+      <div class="sdg-strip">
+        <h4>🌍 Sustainable Development Goal Alignment</h4>
+        <div class="sdg-badges">
+          <span class="sdg-badge">SDG 1 · No Poverty</span>
+          <span class="sdg-badge">SDG 3 · Good Health</span>
+          <span class="sdg-badge">SDG 5 · Gender Equality</span>
+          <span class="sdg-badge">SDG 10 · Reduced Inequalities</span>
+          <span class="sdg-badge">SDG 13 · Climate Action</span>
+          <span class="sdg-badge">SDG 15 · Life on Land</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMMES -->
+<section id="programmes">
+  <div class="section-label">What We Do</div>
+  <h2 class="section-title">Our Programmes</h2>
+  <p class="section-desc">Eight interconnected thematic areas where CEAN works alongside communities to create lasting, measurable change across Kenya.</p>
+  <div class="prog-grid reveal">
+    <div class="prog-card" style="--prog-color:#40916C;--prog-bg:#D8F3DC;">
+      <div class="prog-icon">🌿</div>
+      <h3>Environmental Conservation &amp; Sustainability</h3>
+      <p>Tree-planting initiatives, climate action campaigns, green clubs in schools, eco-friendly agriculture, and clean energy education to protect Kenya's natural resources for future generations.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#C9821A;--prog-bg:#FEF3DC;">
+      <div class="prog-icon">💼</div>
+      <h3>Economic Empowerment &amp; Livelihoods</h3>
+      <p>Micro-enterprise development, Village Savings and Loan Associations (VSLAs), financial literacy training, and market access support for women, youth, and local entrepreneurs.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#9B2335;--prog-bg:#FFE8EC;">
+      <div class="prog-icon">⚖️</div>
+      <h3>Gender Equality &amp; GBV Prevention</h3>
+      <p>Counselling, legal support, and awareness campaigns to prevent gender-based violence. Advocacy for equal representation and access to resources for women and marginalised groups.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#1565C0;--prog-bg:#E3F2FD;">
+      <div class="prog-icon">🏥</div>
+      <h3>Health &amp; Reproductive Rights</h3>
+      <p>Medical outreach camps, reproductive health forums, mental health talks, sanitary towel distribution, immunisation drives, and mobile clinic partnerships across communities.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#6A3BAE;--prog-bg:#F3E8FF;">
+      <div class="prog-icon">📚</div>
+      <h3>Education &amp; Skills Development</h3>
+      <p>Bursaries, learning materials, mentorship, ICT training, learning centres, and vocational skills for children and youth from disadvantaged backgrounds across Kenya.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#0288D1;--prog-bg:#E1F5FE;">
+      <div class="prog-icon">💧</div>
+      <h3>Water, Sanitation &amp; Hygiene (WASH)</h3>
+      <p>Water harvesting systems, community sanitation drives, hygiene education, menstrual health programmes, and sustainable water use in rural and peri-urban Kenya.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#388E3C;--prog-bg:#E8F5E9;">
+      <div class="prog-icon">🕊️</div>
+      <h3>Peace, Leadership &amp; Civic Education</h3>
+      <p>Conflict resolution workshops, youth ambassador training, inter-community dialogue forums, and civic education that builds responsible, engaged Kenyan citizens.</p>
+    </div>
+    <div class="prog-card" style="--prog-color:#E65100;--prog-bg:#FFF3E0;">
+      <div class="prog-icon">🎨</div>
+      <h3>Culture, Arts &amp; Talent Development</h3>
+      <p>Sports events, arts competitions, cultural heritage documentation, and youth innovation hubs that celebrate Kenyan talent and nurture the next generation of creative leaders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-label">Leadership</div>
+  <h2 class="section-title">Our Executive Committee</h2>
+  <p class="section-desc">CEAN is governed by a democratically elected Executive Committee with defined roles, two-year term limits, and full accountability to our General Assembly.</p>
+  <div class="team-grid reveal">
+    <div class="team-card">
+      <div class="team-avatar">PO</div>
+      <h3>Peter Owiti Owiti</h3>
+      <p>Chairperson</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">EI</div>
+      <h3>Esther Ikee</h3>
+      <p>Vice-Chairperson</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">RO</div>
+      <h3>Reagan Ochieng</h3>
+      <p>Secretary</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">KL</div>
+      <h3>Kevin Omondi Lorian</h3>
+      <p>Vice Secretary</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">HI</div>
+      <h3>Humphrey Ipata</h3>
+      <p>Treasurer</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><i class="fas fa-bullhorn" style="font-size:20px;"></i></div>
+      <h3>Communications Manager</h3>
+      <p>Communications &amp; Media</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><i class="fas fa-tasks" style="font-size:20px;"></i></div>
+      <h3>Program Director</h3>
+      <p>Programmes &amp; Delivery</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-label">Stories of Change</div>
+  <h2 class="section-title">Impact in Action</h2>
+  <p class="section-desc">Every programme we run creates real stories of transformation — here is a glimpse of the change CEAN is building across Kenyan communities.</p>
+  <div class="impact-layout reveal">
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="story-card">
+        <div class="story-img" style="background:linear-gradient(135deg,#2D6A4F,#74C69D);"><i class="fas fa-tree"></i></div>
+        <div class="story-body">
+          <span class="story-tag">🌿 Environment</span>
+          <h3>Green Clubs Take Root in Schools</h3>
+          <p>CEAN launched environmental stewardship clubs in community schools, empowering young Kenyans to become frontline environmental advocates — planting trees and leading clean-up campaigns in their neighbourhoods.</p>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-img" style="background:linear-gradient(135deg,#C9821A,#F4A228);"><i class="fas fa-hands-helping"></i></div>
+        <div class="story-body">
+          <span class="story-tag">💼 Economic Empowerment</span>
+          <h3>Women-Led VSLAs Changing Livelihoods</h3>
+          <p>Through Village Savings and Loan Associations, CEAN has helped women in underserved communities access micro-capital, launch small businesses, and build household financial resilience.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="testimonial-block">
+        <span class="quote-mark">"</span>
+        <blockquote>CEAN gave our community a voice and the tools to use it. The training, the support, the advocacy — it changed the way we see our own potential.</blockquote>
+        <cite>— Community Member, CEAN Programme Participant, Kenya</cite>
+      </div>
+      <div class="story-card">
+        <div class="story-img" style="background:linear-gradient(135deg,#1B4332,#40916C);"><i class="fas fa-heartbeat"></i></div>
+        <div class="story-body">
+          <span class="story-tag">🏥 Health Outreach</span>
+          <h3>Mobile Clinics Reaching the Unreached</h3>
+          <p>CEAN's health outreach camps brought screenings, reproductive health education, and basic medical care to communities far from formal health facilities — bridging Kenya's healthcare access gap.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GET INVOLVED -->
+<section id="involve">
+  <div class="section-label">Take Action</div>
+  <h2 class="section-title">Get Involved with CEAN</h2>
+  <p class="section-desc">Whether you give your time, expertise, or resources — your involvement directly strengthens the communities we serve across Kenya.</p>
+  <div class="involve-grid reveal">
+    <div class="involve-card">
+      <div class="involve-icon"><i class="fas fa-id-card"></i></div>
+      <h3>Become a Member</h3>
+      <p>Join CEAN as a full or associate member and actively shape the direction of our programmes and governance.</p>
+    </div>
+    <div class="involve-card">
+      <div class="involve-icon"><i class="fas fa-hands"></i></div>
+      <h3>Volunteer</h3>
+      <p>Offer your skills, time, and passion in our programme areas — from facilitation and health outreach to communications and research.</p>
+    </div>
+    <div class="involve-card">
+      <div class="involve-icon"><i class="fas fa-handshake"></i></div>
+      <h3>Partner With Us</h3>
+      <p>Institutional partners, NGOs, government agencies, and private sector actors — let's co-create sustainable community impact together.</p>
+    </div>
+    <div class="involve-card">
+      <div class="involve-icon"><i class="fas fa-donate"></i></div>
+      <h3>Donate</h3>
+      <p>Your financial contribution directly funds community programmes, youth training, environmental initiatives, and health outreach.</p>
+    </div>
+  </div>
+
+  <div class="contact-form-wrap reveal">
+    <h3>Express Your Interest</h3>
+    <p>Fill out this form and a member of the CEAN team will be in touch within 48 hours.</p>
+    <div class="form-grid">
+      <div class="form-group"><label>Full Name *</label><input type="text" placeholder="Your full name"/></div>
+      <div class="form-group"><label>Organisation / Institution</label><input type="text" placeholder="Your organisation (if applicable)"/></div>
+      <div class="form-group"><label>Email Address *</label><input type="email" placeholder="your@email.com"/></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+254 ..."/></div>
+      <div class="form-group">
+        <label>I am interested in...</label>
+        <select>
+          <option value="">Select an option</option>
+          <option>Becoming a Member</option>
+          <option>Volunteering</option>
+          <option>Institutional Partnership</option>
+          <option>Donating / Funding</option>
+          <option>Media / Press Enquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Programme Area of Interest</label>
+        <select>
+          <option value="">Select a programme</option>
+          <option>Environmental Conservation</option>
+          <option>Economic Empowerment</option>
+          <option>Gender Equality &amp; GBV</option>
+          <option>Health &amp; Reproductive Rights</option>
+          <option>Education &amp; Skills</option>
+          <option>WASH</option>
+          <option>Peace &amp; Civic Education</option>
+          <option>Culture &amp; Arts</option>
+          <option>General / Multiple Areas</option>
+        </select>
+      </div>
+      <div class="form-group full"><label>Message</label><textarea placeholder="Tell us about yourself and how you'd like to engage with CEAN..."></textarea></div>
+    </div>
+    <div style="margin-top:24px;">
+      <button class="btn-primary" onclick="showSuccess(this,'Message Sent!')"><i class="fas fa-paper-plane"></i> Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOR FUNDERS -->
+<section id="funders">
+  <div class="section-label">Funding Partners</div>
+  <h2 class="section-title">Why Fund CEAN?</h2>
+  <p class="section-desc">CEAN is a credible, transparent, and accountable partner for institutional funders, grant-making bodies, and impact investors committed to community-led development in Kenya.</p>
+  <div class="funders-intro reveal">
+    <div class="funder-pillars">
+      <div class="funder-pillar"><div class="pillar-icon">🏛️</div><div><h4>Formal Legal Registration</h4><p>Registered under Kenya's NGO Co-ordination Act, 1990. Fully compliant with the Constitution of Kenya (2010) and all applicable national laws governing community-based organisations.</p></div></div>
+      <div class="funder-pillar"><div class="pillar-icon">📊</div><div><h4>Transparent Governance</h4><p>Democratically elected Executive Committee with defined roles, two-year term limits, and decision-making through a General Assembly. Full constitutional framework and member accountability in place.</p></div></div>
+      <div class="funder-pillar"><div class="pillar-icon">🔍</div><div><h4>External Annual Audit</h4><p>CEAN engages an independent external auditor annually. Audit reports are presented to the Executive Committee and shared with all members at the Annual General Meeting (AGM).</p></div></div>
+      <div class="funder-pillar"><div class="pillar-icon">📅</div><div><h4>Quarterly Financial Reporting</h4><p>The Treasurer presents quarterly financial statements to the Executive Committee. All financial records are maintained for a minimum of seven years for full accountability and compliance.</p></div></div>
+      <div class="funder-pillar"><div class="pillar-icon">🌍</div><div><h4>SDG &amp; Vision 2030 Alignment</h4><p>All programmes are designed in alignment with the SDGs (1, 3, 5, 10, 13, 15) and Kenya Vision 2030's social, economic, and environmental development pillars.</p></div></div>
+    </div>
+    <div class="funder-cta-box">
+      <h3>Fund Programmes That Create Lasting Change</h3>
+      <p>CEAN actively welcomes funding partnerships with UN agencies, bilateral donors, foundations, CSR programmes, and individual philanthropists aligned with our mission areas.</p>
+      <div class="funding-areas">
+        <div class="funding-area-item"><i class="fas fa-check"></i> Environmental Conservation &amp; Climate Action</div>
+        <div class="funding-area-item"><i class="fas fa-check"></i> Economic Empowerment &amp; Livelihoods</div>
+        <div class="funding-area-item"><i class="fas fa-check"></i> Gender Equality &amp; GBV Prevention</div>
+        <div class="funding-area-item"><i class="fas fa-check"></i> Reproductive Health &amp; Medical Outreach</div>
+        <div class="funding-area-item"><i class="fas fa-check"></i> Youth Education &amp; Skills Development</div>
+        <div class="funding-area-item"><i class="fas fa-check"></i> WASH Infrastructure Projects</div>
+        <div class="funding-area-item"><i class="fas fa-check"></i> Peace Building &amp; Civic Education</div>
+      </div>
+      <a href="#contact" class="btn-primary" style="width:100%;justify-content:center;font-family:'DM Sans',sans-serif;">
+        <i class="fas fa-envelope"></i> Contact Us to Discuss Funding
+      </a>
+      <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.45);">We welcome due diligence, site visits &amp; formal MoU discussions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Reach Us</div>
+  <h2 class="section-title">Contact CEAN</h2>
+  <div class="contact-layout reveal">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div><h4>Location</h4><p>Kenya, East Africa</p></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+        <div><h4>Email</h4><p>info@ceankenya.org</p></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+        <div><h4>Phone</h4><p>+254 700 000 000</p></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-share-alt"></i></div>
+        <div>
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+      </div>
+      <div style="padding:22px;background:rgba(255,255,255,0.05);border:1px solid rgba(116,198,157,0.15);border-radius:16px;">
+        <h4 style="color:var(--green-light);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Stay Updated</h4>
+        <p style="color:rgba(255,255,255,0.6);font-size:14px;margin-bottom:14px;line-height:1.6;">Subscribe for programme updates and funding opportunities.</p>
+        <div style="display:flex;gap:8px;">
+          <input type="email" placeholder="your@email.com" style="flex:1;padding:11px 14px;border-radius:8px;border:1px solid rgba(116,198,157,0.2);background:rgba(255,255,255,0.07);color:white;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;"/>
+          <button class="btn-primary" style="padding:11px 16px;font-size:13px;white-space:nowrap;" onclick="showSuccess(this,'Subscribed!')">Subscribe</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3 style="font-family:'Playfair Display',serif;color:white;font-size:22px;margin-bottom:22px;">Send Us a Message</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>Full Name *</label><input type="text" placeholder="Your name"/></div>
+        <div class="form-group"><label>Email *</label><input type="email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label>Subject</label><input type="text" placeholder="e.g. Funding Enquiry"/></div>
+        <div class="form-group"><label>Organisation</label><input type="text" placeholder="Your organisation"/></div>
+        <div class="form-group full"><label>Message *</label><textarea placeholder="How can we help, or how would you like to collaborate with CEAN?"></textarea></div>
+      </div>
+      <div style="margin-top:20px;">
+        <button class="btn-primary" onclick="showSuccess(this,'Message Sent!')"><i class="fas fa-paper-plane"></i> Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="nav-logo-mark">CE</div>
+        <div>
+          <strong style="color:white;font-family:'Playfair Display',serif;font-size:16px;">CEAN</strong><br/>
+          <span style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;">Community Empowerment &amp; Advocacy Network</span>
+        </div>
+      </div>
+      <p>A registered Kenyan CBO committed to economic empowerment, environmental conservation, gender justice, and reproductive health — aligned with Kenya Vision 2030 and the SDGs.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About CEAN</a></li>
+        <li><a href="#programmes">Our Programmes</a></li>
+        <li><a href="#team">Leadership</a></li>
+        <li><a href="#impact">Impact Stories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get Involved</h4>
+      <ul>
+        <li><a href="#involve">Become a Member</a></li>
+        <li><a href="#involve">Volunteer</a></li>
+        <li><a href="#involve">Partner With Us</a></li>
+        <li><a href="#involve">Donate</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>For Partners</h4>
+      <ul>
+        <li><a href="#funders">Funder Information</a></li>
+        <li><a href="#funders">SDG Alignment</a></li>
+        <li><a href="#funders">Governance</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Community Empowerment and Advocacy Network (CEAN). Registered in Kenya under the NGO Co-ordination Act, 1990.</span>
+    <span>Built with 💚 for community impact</span>
+  </div>
+</footer>
+
+<script>
+  function toggleNav() {
+    const links = document.getElementById('navLinks');
+    const icon = document.getElementById('hamburgerIcon');
+    links.classList.toggle('open');
+    icon.className = links.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('hamburgerIcon').className = 'fas fa-bars';
+    });
+  });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  function showSuccess(btn, msg) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> ' + msg;
+    btn.style.background = 'var(--green-bright)';
+    btn.disabled = true;
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; }, 3000);
+  }
+
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id'); });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--green-light)' : '';
+    });
+  });
+</script>
+</body>
+</html>
